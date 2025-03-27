@@ -1,0 +1,187 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>域环境搭建 | caixiaoguan's Blog</title><meta name="author" content="caixiaoguan"><meta name="copyright" content="caixiaoguan"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="域网络拓补图 主域控搭建修改网络配置 修改主机名 安装域服务和dns服务器  升级为域控 新建新林 接下来一直下一步安装即可安装完成后，最后设置dns委派即可将_msdcs.hack-guan.com和hack-guan.com属性的区域传送设置为允许   子域控搭建修改网络配置信息，使得首选dns指向主域控IP 修改计算机名 安装AD域服务（同上）将新域添加进现有林，输入主域控的域管凭证  接下">
+<meta property="og:type" content="article">
+<meta property="og:title" content="域环境搭建">
+<meta property="og:url" content="http://example.com/2023/06/05/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/index.html">
+<meta property="og:site_name" content="caixiaoguan&#39;s Blog">
+<meta property="og:description" content="域网络拓补图 主域控搭建修改网络配置 修改主机名 安装域服务和dns服务器  升级为域控 新建新林 接下来一直下一步安装即可安装完成后，最后设置dns委派即可将_msdcs.hack-guan.com和hack-guan.com属性的区域传送设置为允许   子域控搭建修改网络配置信息，使得首选dns指向主域控IP 修改计算机名 安装AD域服务（同上）将新域添加进现有林，输入主域控的域管凭证  接下">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/my.jpg">
+<meta property="article:published_time" content="2023-06-05T06:41:06.000Z">
+<meta property="article:modified_time" content="2025-03-27T12:03:35.345Z">
+<meta property="article:author" content="caixiaoguan">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/my.jpg"><link rel="shortcut icon" href="/img/my.jpg"><link rel="canonical" href="http://example.com/2023/06/05/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '域环境搭建',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-03-27 20:03:35'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/my.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">5</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><hr class="custom-hr"/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="caixiaoguan's Blog"><span class="site-name">caixiaoguan's Blog</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">域环境搭建</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-06-05T06:41:06.000Z" title="发表于 2023-06-05 14:41:06">2023-06-05</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-03-27T12:03:35.345Z" title="更新于 2025-03-27 20:03:35">2025-03-27</time></span></div><div class="meta-secondline"></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="域网络拓补图"><a href="#域网络拓补图" class="headerlink" title="域网络拓补图"></a>域网络拓补图</h1><p><img src="/2023/06/05/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1688877996040-343b5a46-7191-473c-b63b-bc531ea8573f.png"></p>
+<h1 id="主域控搭建"><a href="#主域控搭建" class="headerlink" title="主域控搭建"></a>主域控搭建</h1><h2 id="修改网络配置"><a href="#修改网络配置" class="headerlink" title="修改网络配置"></a>修改网络配置</h2><p><img src="/2023/06/05/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1688878175424-941f6682-f1d4-441b-ad70-260a6535159a.png"></p>
+<h2 id="修改主机名"><a href="#修改主机名" class="headerlink" title="修改主机名"></a>修改主机名</h2><p><img src="/2023/06/05/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1688878244947-01dae4fe-77c8-4be8-b338-e4bcd2f09150.png"></p>
+<h2 id="安装域服务和dns服务器"><a href="#安装域服务和dns服务器" class="headerlink" title="安装域服务和dns服务器"></a>安装域服务和dns服务器</h2><p><img src="/2023/06/05/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1688878600853-8ddc5b45-ed91-4881-a23c-934fac42a90d.png"></p>
+<p><img src="/2023/06/05/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/image-20250327200008029.png" alt="image-20250327200008029"></p>
+<h2 id="升级为域控"><a href="#升级为域控" class="headerlink" title="升级为域控"></a>升级为域控</h2><p><img src="/2023/06/05/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1688878621954-b0acd6e2-9b61-4c46-b875-052867d5cc41.png"></p>
+<h2 id="新建新林"><a href="#新建新林" class="headerlink" title="新建新林"></a>新建新林</h2><p><img src="/2023/06/05/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1688878632829-f3af90f7-e9e0-43c3-8bff-14dfea688e04.png"></p>
+<h2 id="接下来一直下一步安装即可"><a href="#接下来一直下一步安装即可" class="headerlink" title="接下来一直下一步安装即可"></a>接下来一直下一步安装即可</h2><h2 id="安装完成后，最后设置dns委派即可"><a href="#安装完成后，最后设置dns委派即可" class="headerlink" title="安装完成后，最后设置dns委派即可"></a>安装完成后，最后设置dns委派即可</h2><p>将_msdcs.hack-guan.com和hack-guan.com属性的区域传送设置为允许</p>
+<p><img src="/2023/06/05/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1688878658821-e3269cc6-924d-4601-9a48-3e6065d91f42.png"></p>
+<p><img src="/2023/06/05/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1688880738624-c93350d3-5c8f-4d6f-bc49-909b8dd69423.png"></p>
+<h1 id="子域控搭建"><a href="#子域控搭建" class="headerlink" title="子域控搭建"></a>子域控搭建</h1><h2 id="修改网络配置信息，使得首选dns指向主域控IP"><a href="#修改网络配置信息，使得首选dns指向主域控IP" class="headerlink" title="修改网络配置信息，使得首选dns指向主域控IP"></a>修改网络配置信息，使得首选dns指向主域控IP</h2><p><img src="/2023/06/05/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1688880757909-d4bd71ee-7af2-4a05-8748-49fe5f5364ec.png"></p>
+<h2 id="修改计算机名"><a href="#修改计算机名" class="headerlink" title="修改计算机名"></a>修改计算机名</h2><p><img src="/2023/06/05/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1688880784042-29764b1d-cf3b-4e20-966a-5123e1aa8f03.png"></p>
+<h2 id="安装AD域服务（同上）"><a href="#安装AD域服务（同上）" class="headerlink" title="安装AD域服务（同上）"></a>安装AD域服务（同上）</h2><h2 id="将新域添加进现有林，输入主域控的域管凭证"><a href="#将新域添加进现有林，输入主域控的域管凭证" class="headerlink" title="将新域添加进现有林，输入主域控的域管凭证"></a>将新域添加进现有林，输入主域控的域管凭证</h2><p><img src="/2023/06/05/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1688880804322-240a485f-e53f-42c8-9725-ab1ecbe963a1.png"></p>
+<p><img src="/2023/06/05/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1688880811815-e5d26a1e-31b6-4dd7-bb9a-c58bd9899a26.png"></p>
+<h2 id="接下来设置目录还原密码，一直下一步即可"><a href="#接下来设置目录还原密码，一直下一步即可" class="headerlink" title="接下来设置目录还原密码，一直下一步即可"></a>接下来设置目录还原密码，一直下一步即可</h2><p><img src="/2023/06/05/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1688880819649-f9f0cc6e-8d2e-4475-87fe-81f55f85b339.png"></p>
+<h1 id="域机器加入"><a href="#域机器加入" class="headerlink" title="域机器加入"></a>域机器加入</h1><h2 id="将dns设置为域控IP"><a href="#将dns设置为域控IP" class="headerlink" title="将dns设置为域控IP"></a>将dns设置为域控IP</h2><h2 id="计算机属性-——》更改设置-——》更改域-——》填写域名-——》域管账户授权"><a href="#计算机属性-——》更改设置-——》更改域-——》填写域名-——》域管账户授权" class="headerlink" title="计算机属性 ——》更改设置 ——》更改域 ——》填写域名 ——》域管账户授权"></a>计算机属性 ——》更改设置 ——》更改域 ——》填写域名 ——》域管账户授权</h2><h2 id="域控设置新域用户"><a href="#域控设置新域用户" class="headerlink" title="域控设置新域用户"></a>域控设置新域用户</h2><h2 id="域机器用域用户账户登录即可"><a href="#域机器用域用户账户登录即可" class="headerlink" title="域机器用域用户账户登录即可"></a>域机器用域用户账户登录即可</h2><h1 id="辅域控搭建"><a href="#辅域控搭建" class="headerlink" title="辅域控搭建"></a>辅域控搭建</h1><h2 id="设置网络配置信息"><a href="#设置网络配置信息" class="headerlink" title="设置网络配置信息"></a>设置网络配置信息</h2><p>首选dns设为主域控的IP，备选dns设为自己的</p>
+<p><img src="/2023/06/05/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1688880834519-171cbe89-44cd-4894-b650-bf3bf1186257.png"></p>
+<h2 id="修改计算机名，并加入主域"><a href="#修改计算机名，并加入主域" class="headerlink" title="修改计算机名，并加入主域"></a>修改计算机名，并加入主域</h2><p>!<img src="/2023/06/05/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1688880841110-0a2f169e-221d-4489-9745-e650c27d5977.png"></p>
+<h2 id="将该机器添加进现有林"><a href="#将该机器添加进现有林" class="headerlink" title="将该机器添加进现有林"></a>将该机器添加进现有林</h2><p>增加一个域管</p>
+<p><img src="/2023/06/05/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1688880847071-490a755e-226f-4571-b98b-556ca7ca7099.png"></p>
+<p>登录admin域管理员，安装AD域服务和dns服务</p>
+<p><img src="/2023/06/05/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1688880859255-7ffebb69-439a-4a0a-a259-11fef77e234c.png"></p>
+<h2 id="将首选dns设置为自己，备选dns设置为主域控"><a href="#将首选dns设置为自己，备选dns设置为主域控" class="headerlink" title="将首选dns设置为自己，备选dns设置为主域控"></a>将首选dns设置为自己，备选dns设置为主域控</h2><p><img src="/2023/06/05/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1688880874220-a1604ce1-0e64-4112-99f6-27e3f4ebb7f7.png"></p>
+<h2 id="最后设置dns委派即可"><a href="#最后设置dns委派即可" class="headerlink" title="最后设置dns委派即可"></a>最后设置dns委派即可</h2><p>将_msdcs.hack-guan.com和hack-guan.com属性的区域传送设置为允许</p>
+<p><img src="/2023/06/05/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1688880887668-e687537c-69d7-4942-917f-c11ea95e2cad.png"></p>
+<p><img src="/2023/06/05/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1688880934416-e83fa231-5a19-4a93-9ba6-d0699f71ecc4.png"></p>
+<h1 id="建立域信任关系"><a href="#建立域信任关系" class="headerlink" title="建立域信任关系"></a>建立域信任关系</h1><h2 id="两域控各自建立对方域的dns辅助区域"><a href="#两域控各自建立对方域的dns辅助区域" class="headerlink" title="两域控各自建立对方域的dns辅助区域"></a>两域控各自建立对方域的dns辅助区域</h2><p>其中区域名称要是完整域名</p>
+<p><img src="/2023/06/05/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1688880953168-33a58036-042f-4905-a9e9-c3a8c2e1dbb6.png"><br><img src="/2023/06/05/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1688880961099-92196bb4-4d41-4de7-abfc-19145cd288ec.png"><br><img src="/2023/06/05/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1688880970754-36f63ff7-ffa1-40b5-8816-dfafd18fa6d0.png"></p>
+<h2 id="两个域之间都新建信任关系"><a href="#两个域之间都新建信任关系" class="headerlink" title="两个域之间都新建信任关系"></a>两个域之间都新建信任关系</h2><p>根据自己需求自行选择信任类型以及认证</p>
+<p><img src="/2023/06/05/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1688881009669-fc7265bb-b4ce-49bb-a1bd-69f24c2fa28c.png"><br><img src="/2023/06/05/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1688881019049-29e379cf-27ec-41b9-b56d-dd0f45cb2d8e.png"></p>
+<h2 id="检测域信任关系"><a href="#检测域信任关系" class="headerlink" title="检测域信任关系"></a>检测域信任关系</h2><p><img src="/2023/06/05/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1688881028026-6e09b1f4-eadf-4c36-84bc-2f03bf19a53d.png"></p>
+<p>使用guan.com的域机器对sondc.hack-guan.com的域用户进行登录，成功（注意域控机器有安全策略限制，会限定用户登录）<br><img src="/2023/06/05/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1688881043130-0ec08c6f-d242-48bc-9dc2-c596fd577e91.png"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://example.com">caixiaoguan</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2023/06/05/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/">http://example.com/2023/06/05/域环境搭建/域环境搭建/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">caixiaoguan's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="/img/my.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-full"><a href="/2023/09/17/DPAPI/DPAPI%E4%B8%93%E9%A2%98/" title="DPAPI专题"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">DPAPI专题</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/my.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">caixiaoguan</div><div class="author-info__description">原来你也想证实一下</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">5</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%9F%E7%BD%91%E7%BB%9C%E6%8B%93%E8%A1%A5%E5%9B%BE"><span class="toc-number">1.</span> <span class="toc-text">域网络拓补图</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%BB%E5%9F%9F%E6%8E%A7%E6%90%AD%E5%BB%BA"><span class="toc-number">2.</span> <span class="toc-text">主域控搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE"><span class="toc-number">2.1.</span> <span class="toc-text">修改网络配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E4%B8%BB%E6%9C%BA%E5%90%8D"><span class="toc-number">2.2.</span> <span class="toc-text">修改主机名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E5%9F%9F%E6%9C%8D%E5%8A%A1%E5%92%8Cdns%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-number">2.3.</span> <span class="toc-text">安装域服务和dns服务器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%87%E7%BA%A7%E4%B8%BA%E5%9F%9F%E6%8E%A7"><span class="toc-number">2.4.</span> <span class="toc-text">升级为域控</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B0%E5%BB%BA%E6%96%B0%E6%9E%97"><span class="toc-number">2.5.</span> <span class="toc-text">新建新林</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A5%E4%B8%8B%E6%9D%A5%E4%B8%80%E7%9B%B4%E4%B8%8B%E4%B8%80%E6%AD%A5%E5%AE%89%E8%A3%85%E5%8D%B3%E5%8F%AF"><span class="toc-number">2.6.</span> <span class="toc-text">接下来一直下一步安装即可</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E5%AE%8C%E6%88%90%E5%90%8E%EF%BC%8C%E6%9C%80%E5%90%8E%E8%AE%BE%E7%BD%AEdns%E5%A7%94%E6%B4%BE%E5%8D%B3%E5%8F%AF"><span class="toc-number">2.7.</span> <span class="toc-text">安装完成后，最后设置dns委派即可</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AD%90%E5%9F%9F%E6%8E%A7%E6%90%AD%E5%BB%BA"><span class="toc-number">3.</span> <span class="toc-text">子域控搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE%E4%BF%A1%E6%81%AF%EF%BC%8C%E4%BD%BF%E5%BE%97%E9%A6%96%E9%80%89dns%E6%8C%87%E5%90%91%E4%B8%BB%E5%9F%9F%E6%8E%A7IP"><span class="toc-number">3.1.</span> <span class="toc-text">修改网络配置信息，使得首选dns指向主域控IP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%8D"><span class="toc-number">3.2.</span> <span class="toc-text">修改计算机名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85AD%E5%9F%9F%E6%9C%8D%E5%8A%A1%EF%BC%88%E5%90%8C%E4%B8%8A%EF%BC%89"><span class="toc-number">3.3.</span> <span class="toc-text">安装AD域服务（同上）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%86%E6%96%B0%E5%9F%9F%E6%B7%BB%E5%8A%A0%E8%BF%9B%E7%8E%B0%E6%9C%89%E6%9E%97%EF%BC%8C%E8%BE%93%E5%85%A5%E4%B8%BB%E5%9F%9F%E6%8E%A7%E7%9A%84%E5%9F%9F%E7%AE%A1%E5%87%AD%E8%AF%81"><span class="toc-number">3.4.</span> <span class="toc-text">将新域添加进现有林，输入主域控的域管凭证</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A5%E4%B8%8B%E6%9D%A5%E8%AE%BE%E7%BD%AE%E7%9B%AE%E5%BD%95%E8%BF%98%E5%8E%9F%E5%AF%86%E7%A0%81%EF%BC%8C%E4%B8%80%E7%9B%B4%E4%B8%8B%E4%B8%80%E6%AD%A5%E5%8D%B3%E5%8F%AF"><span class="toc-number">3.5.</span> <span class="toc-text">接下来设置目录还原密码，一直下一步即可</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%9F%E6%9C%BA%E5%99%A8%E5%8A%A0%E5%85%A5"><span class="toc-number">4.</span> <span class="toc-text">域机器加入</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%86dns%E8%AE%BE%E7%BD%AE%E4%B8%BA%E5%9F%9F%E6%8E%A7IP"><span class="toc-number">4.1.</span> <span class="toc-text">将dns设置为域控IP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%B1%9E%E6%80%A7-%E2%80%94%E2%80%94%E3%80%8B%E6%9B%B4%E6%94%B9%E8%AE%BE%E7%BD%AE-%E2%80%94%E2%80%94%E3%80%8B%E6%9B%B4%E6%94%B9%E5%9F%9F-%E2%80%94%E2%80%94%E3%80%8B%E5%A1%AB%E5%86%99%E5%9F%9F%E5%90%8D-%E2%80%94%E2%80%94%E3%80%8B%E5%9F%9F%E7%AE%A1%E8%B4%A6%E6%88%B7%E6%8E%88%E6%9D%83"><span class="toc-number">4.2.</span> <span class="toc-text">计算机属性 ——》更改设置 ——》更改域 ——》填写域名 ——》域管账户授权</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%9F%E6%8E%A7%E8%AE%BE%E7%BD%AE%E6%96%B0%E5%9F%9F%E7%94%A8%E6%88%B7"><span class="toc-number">4.3.</span> <span class="toc-text">域控设置新域用户</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%9F%E6%9C%BA%E5%99%A8%E7%94%A8%E5%9F%9F%E7%94%A8%E6%88%B7%E8%B4%A6%E6%88%B7%E7%99%BB%E5%BD%95%E5%8D%B3%E5%8F%AF"><span class="toc-number">4.4.</span> <span class="toc-text">域机器用域用户账户登录即可</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%BE%85%E5%9F%9F%E6%8E%A7%E6%90%AD%E5%BB%BA"><span class="toc-number">5.</span> <span class="toc-text">辅域控搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE%E4%BF%A1%E6%81%AF"><span class="toc-number">5.1.</span> <span class="toc-text">设置网络配置信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%90%8D%EF%BC%8C%E5%B9%B6%E5%8A%A0%E5%85%A5%E4%B8%BB%E5%9F%9F"><span class="toc-number">5.2.</span> <span class="toc-text">修改计算机名，并加入主域</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%86%E8%AF%A5%E6%9C%BA%E5%99%A8%E6%B7%BB%E5%8A%A0%E8%BF%9B%E7%8E%B0%E6%9C%89%E6%9E%97"><span class="toc-number">5.3.</span> <span class="toc-text">将该机器添加进现有林</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%86%E9%A6%96%E9%80%89dns%E8%AE%BE%E7%BD%AE%E4%B8%BA%E8%87%AA%E5%B7%B1%EF%BC%8C%E5%A4%87%E9%80%89dns%E8%AE%BE%E7%BD%AE%E4%B8%BA%E4%B8%BB%E5%9F%9F%E6%8E%A7"><span class="toc-number">5.4.</span> <span class="toc-text">将首选dns设置为自己，备选dns设置为主域控</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E5%90%8E%E8%AE%BE%E7%BD%AEdns%E5%A7%94%E6%B4%BE%E5%8D%B3%E5%8F%AF"><span class="toc-number">5.5.</span> <span class="toc-text">最后设置dns委派即可</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BB%BA%E7%AB%8B%E5%9F%9F%E4%BF%A1%E4%BB%BB%E5%85%B3%E7%B3%BB"><span class="toc-number">6.</span> <span class="toc-text">建立域信任关系</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%A4%E5%9F%9F%E6%8E%A7%E5%90%84%E8%87%AA%E5%BB%BA%E7%AB%8B%E5%AF%B9%E6%96%B9%E5%9F%9F%E7%9A%84dns%E8%BE%85%E5%8A%A9%E5%8C%BA%E5%9F%9F"><span class="toc-number">6.1.</span> <span class="toc-text">两域控各自建立对方域的dns辅助区域</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%A4%E4%B8%AA%E5%9F%9F%E4%B9%8B%E9%97%B4%E9%83%BD%E6%96%B0%E5%BB%BA%E4%BF%A1%E4%BB%BB%E5%85%B3%E7%B3%BB"><span class="toc-number">6.2.</span> <span class="toc-text">两个域之间都新建信任关系</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A3%80%E6%B5%8B%E5%9F%9F%E4%BF%A1%E4%BB%BB%E5%85%B3%E7%B3%BB"><span class="toc-number">6.3.</span> <span class="toc-text">检测域信任关系</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/10/22/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/%E5%9F%9F%E4%BF%A1%E4%BB%BB%E8%AE%BF%E9%97%AE%E5%AE%9E%E8%B7%B5/" title="域信任访问实践">域信任访问实践</a><time datetime="2023-10-22T06:41:06.000Z" title="发表于 2023-10-22 14:41:06">2023-10-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/10/19/Dcsync%E5%88%A9%E7%94%A8/dcsync%E5%88%A9%E7%94%A8/" title="dcsync利用">dcsync利用</a><time datetime="2023-10-19T06:41:06.000Z" title="发表于 2023-10-19 14:41:06">2023-10-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/10/17/esxi%E6%8C%82%E8%BD%BD/esxi%E6%8C%82%E8%BD%BD/" title="esxi挂载">esxi挂载</a><time datetime="2023-10-17T06:41:06.000Z" title="发表于 2023-10-17 14:41:06">2023-10-17</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/09/17/DPAPI/DPAPI%E4%B8%93%E9%A2%98/" title="DPAPI专题">DPAPI专题</a><time datetime="2023-09-17T06:41:06.000Z" title="发表于 2023-09-17 14:41:06">2023-09-17</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/06/05/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/%E5%9F%9F%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/" title="域环境搭建">域环境搭建</a><time datetime="2023-06-05T06:41:06.000Z" title="发表于 2023-06-05 14:41:06">2023-06-05</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2025 By caixiaoguan</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.13.0"></script></div></div></body></html>
